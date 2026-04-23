@@ -1,3 +1,4 @@
+mod meslsp;
 mod mesonlsp;
 mod muon;
 mod utils;
@@ -28,6 +29,7 @@ impl MesonExtension {
         zed::set_language_server_installation_status(&id, &LSPStatus::CheckingForUpdate);
 
         let bin_path = match id.as_ref() {
+            meslsp::LANGUAGE_SERVER_ID => meslsp::install_or_find_meslsp(&id)?,
             mesonlsp::LANGUAGE_SERVER_ID => mesonlsp::install_or_find_mesonlsp(&id)?,
             muon::LANGUAGE_SERVER_ID => muon::install_or_find_muon(&id)?,
             _ => return Err(format!("Unsupported language server: {}", id.as_ref())),
@@ -54,6 +56,7 @@ impl zed::Extension for MesonExtension {
                 vec!["analyze".to_string(), "-l".to_string(), "lsp".to_string()]
             }
             mesonlsp::LANGUAGE_SERVER_ID => vec!["--lsp".to_string()],
+            meslsp::LANGUAGE_SERVER_ID => vec![],
             _ => return Err(format!("Unrecognized language server for Meson: {id}")),
         };
 

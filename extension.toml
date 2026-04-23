@@ -17,3 +17,7 @@ language = "Meson"
 [language_servers.muon]
 name = "Muon"
 language = "Meson"
+
+[language_servers.meslsp]
+name = "meslsp"
+language = "Meson"
